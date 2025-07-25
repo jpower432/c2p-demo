@@ -20,13 +20,14 @@ pull_request_rule_meets_min_approvals if {
 	some i
 	rule = input.values[i]
 	rule.type == "pull_request"
-	required_count := data.branch_protection.main_branch_min_approvals
+	required_count := data.main_branch_min_approvals
 	rule.parameters.required_approving_review_count >= required_count
 }
 
 evaluation_resource_id := input.id
 evaluation_resource_name := input.name
 evaluation_resource_type := "resource"
+policy_id := "github-branch-protection"
 
 violation[msg] if {
 	not input.values # If the 'values' array itself is missing or empty
@@ -40,7 +41,7 @@ violation[msg] if {
 }
 
 violation[msg] if {
-	required_count := data.branch_protection.main_branch_min_approvals
+	required_count := data.main_branch_min_approvals
 	not pull_request_rule_meets_min_approvals
 	msg = sprintf("Branch protection for 'main' requires pull request reviews but has less than the configured minimum of %v required approving reviews.", [required_count])
 }

@@ -1,4 +1,4 @@
-name: "install-kyverno-plugins"
+name: "install-kyverno-plugin"
 description: "Install Kyverno Plugin"
 
 runs:
